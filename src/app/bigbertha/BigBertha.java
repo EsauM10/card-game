@@ -60,7 +60,12 @@ public class BigBertha extends CardGame{
 
 	@Override
 	public boolean checkWinner(){
-		return false;
+		int tableau1 = 10;
+		if(!piles.get(0).isEmpty()) return false;
+		for(int i = tableau1; i < (tableau1 + TABLEAU_SIZE); i++){
+			if(!piles.get(i).isEmpty()) return false;
+		}
+		return true;
 	}
 
 	@Override
