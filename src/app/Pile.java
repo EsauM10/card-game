@@ -80,8 +80,13 @@ public class Pile {
 		return cards.pop(); 
 	}
 	
-	public Card removeBelow(){
-		return cards.remove(0);
+	public Card removeCard(int index){
+		return cards.remove(index);
+	}
+
+	public Card removeCard(Card card){
+		int index = cards.indexOf(card);
+		return cards.remove(index);
 	}
 
 	public void setStackingMethod(Stackable stackableObject){

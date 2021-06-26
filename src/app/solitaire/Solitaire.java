@@ -80,14 +80,14 @@ public class Solitaire extends CardGame{
 	}
 
 	@Override
-	public void move(int fromIndex, int toIndex, int cardsQty) throws Exception{
+	public void move(int fromIndex, int toIndex, Pile cards) throws Exception{
 		Pile source 	 = piles.get(fromIndex-1);
 		Pile destination = piles.get(toIndex-1);
 
 		if(source.name().equals("ESTOQUE") && destination.name().equals("DESCARTE"))
 			moveCardFromStockToWaste();
 		else{
-			moveOneOrMoreCards(fromIndex, toIndex, cardsQty);
+			moveOneOrMoreCards(fromIndex, toIndex, cards);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class Solitaire extends CardGame{
 		Pile waste = piles.get(1);
 		
 		while(!waste.isEmpty()) {
-			Card card = waste.removeBelow();
+			Card card = waste.removeCard(0);
 			card.turnDown();
 			stock.addCardInFinal(card);
 		}
@@ -106,20 +106,19 @@ public class Solitaire extends CardGame{
 		}
 	}
 
-	public void moveOneOrMoreCards(int fromIndex, int toIndex, int cardsQty) throws Exception{
+	public void moveOneOrMoreCards(int fromIndex, int toIndex, Pile cards) throws Exception{
 		Pile fromPile = piles.get(fromIndex-1);
 		Pile toPile   = piles.get(toIndex-1);
-		Pile newPile  = fromPile.pickLastCards(cardsQty);
 		
-		if(newPile.isEmpty()) return;
-		if(!pileIsAscendent(newPile)) 
+		if(cards.isEmpty()) return;
+		if(!pileIsAscendent(cards)) 
 			throw new Exception("A sub pilha selecionada nao possui ordem ascendente!\n");
 		
-		if(toPile.type().equals("FUNDACAO") && cardsQty > 1)
+		if(toPile.type().equals("FUNDACAO") && cards.size() > 1)
 			throw new Exception("So e permitido mover uma carta por vez!\n");
 
-		while(!newPile.isEmpty()){
-			moveCard(newPile, toPile);
+		while(!cards.isEmpty()){
+			moveCard(cards, toPile);
 			fromPile.removeLastCard();
 		}
 
@@ -146,39 +145,30 @@ public class Solitaire extends CardGame{
 	}
 
 	public Stackable stackableOnFoundation(Pile pile){
-		return new Stackable(){
-			
-			@Override
-			public boolean cardIsStackable(Card card) {
-				if(pile.isEmpty()){
-					if(!card.value().equals("A")) return false;
-				}	
-				else{
-					Card lastCard = pile.pickLastCard();
-					if(!deck.hasSameSuit(card, lastCard)) 			return false;
-					if(!deck.hasSamePriorCardValue(card, lastCard)) return false;
-				}
-				return true;
+		return (Card card) -> {		
+			if(pile.isEmpty()){
+				if(!card.value().equals("A")) return false;
+			}	
+			else{
+				Card lastCard = pile.pickLastCard();
+				if(!deck.hasSameSuit(card, lastCard)) 			return false;
+				if(!deck.hasSamePriorCardValue(card, lastCard)) return false;
 			}
-			
+			return true;
 		};
 	}
 
 	public Stackable stackableOnTableau(Pile pile){
-		return new Stackable(){
-			@Override
-			public boolean cardIsStackable(Card card) {
-				if(pile.isEmpty()){
-					if(!card.value().equals("K")) return false;
-				}
-				else{
-					Card lastCard = pile.pickLastCard();
-					if(deck.hasSameColor(card, lastCard))			return false;
-					if(!deck.hasSameNextCardValue(card, lastCard)) 	return false;
-				}
-				return true;
+		return (Card card) -> {	
+			if(pile.isEmpty()){
+				if(!card.value().equals("K")) return false;
 			}
-			
+			else{
+				Card lastCard = pile.pickLastCard();
+				if(deck.hasSameColor(card, lastCard))			return false;
+				if(!deck.hasSameNextCardValue(card, lastCard)) 	return false;
+			}
+			return true;	
 		};
 	}	
 }

@@ -21,7 +21,7 @@ public abstract class CardGame {
 
 	public abstract void start();
 
-	public abstract void move(int fromIndex, int toIndex, int cardsQty) throws Exception;
+	public abstract void move(int fromIndex, int toIndex, Pile cards) throws Exception;
 
 	public Pile getPile(String name){
 		for(Pile pile: piles){
@@ -42,8 +42,8 @@ public abstract class CardGame {
 		fromPile.removeLastCard();
 	}
 	
-	public void performPlay(int fromIndex, int toIndex, int cardsQty) throws Exception{
+	public void performPlay(int fromIndex, int toIndex, Pile cards) throws Exception{
 		if(!isValidMove(fromIndex, toIndex)) throw new Exception("Jogada Invalida!\n");
-		move(fromIndex, toIndex, cardsQty);
+		move(fromIndex, toIndex, cards);
 	}
 }

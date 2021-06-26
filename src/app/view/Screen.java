@@ -194,7 +194,7 @@ public abstract class Screen extends JPanel{
 			destinationIndex = destination.pile.index();
 
 			try {
-				game.performPlay(sourceIndex, destinationIndex, selectedPile.pile.size());
+				game.performPlay(sourceIndex, destinationIndex, selectedPile.pile);
 			} catch (Exception ex) { JOptionPane.showMessageDialog(this, ex.getMessage()); }
 			
 			if(game.checkWinner())
