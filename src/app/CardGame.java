@@ -7,10 +7,11 @@ public abstract class CardGame {
 	public List<Pile> piles;
 	public boolean running = false;
 	public int turnCardsFromStock;
+	public String name;
 
-	public CardGame(){
+	public CardGame(String name){
 		piles = new ArrayList<>();
-		createPiles();
+		this.name = name;
 	}
 
 	public abstract void createPiles();
@@ -19,20 +20,18 @@ public abstract class CardGame {
 
 	public abstract boolean isValidMove(int fromIndex, int toIndex);
 
-	public abstract void start();
-
 	public abstract void move(int fromIndex, int toIndex, Pile cards) throws Exception;
+
+	public void start(){
+		piles.clear();
+		createPiles();
+	}
 
 	public Pile getPile(String name){
 		for(Pile pile: piles){
 			if(pile.name().equals(name)) return pile;
 		}
 		return null;
-	}
-
-	public void restart(){
-		piles.clear();
-		createPiles();
 	}
 
 	public void moveCard(Pile fromPile, Pile toPile) throws Exception{

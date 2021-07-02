@@ -9,8 +9,8 @@ public class BigBerthaScreen extends Screen{
 
 	public BigBerthaScreen(CardGame game){
 		super(game);
-		Color background = new Color(66, 34, 101);
-		Color toolbar = new Color(40, 19, 62);
+		Color background = new Color(91, 44, 143);
+		Color toolbar = new Color(66, 34, 101);
 		Color button = new Color(108, 57, 163);
 		setTheme(background, toolbar, button);
 	}

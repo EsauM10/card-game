@@ -1,15 +1,13 @@
 package app.bigbertha;
 
-import java.awt.EventQueue;
 import java.util.List;
+
 
 import app.Card;
 import app.CardGame;
 import app.Deck;
 import app.Pile;
 import app.Stackable;
-import app.view.MainWindow;
-import app.view.Screen;
 
 
 public class BigBertha extends CardGame{
@@ -18,7 +16,7 @@ public class BigBertha extends CardGame{
 	private Deck deck;
 
 	public BigBertha() {
-		super();
+		super("BigBertha");
 	}
 	
 	@Override
@@ -46,17 +44,6 @@ public class BigBertha extends CardGame{
 		}
 
 	}
-
-	@Override
-	public void start(){
-		Screen screen = new BigBerthaScreen(this);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new MainWindow("BigBertha", screen).setVisible(true);
-			}
-		});
-	}
-
 
 	@Override
 	public boolean checkWinner(){

@@ -18,7 +18,6 @@ import java.awt.RenderingHints;
 import java.awt.BasicStroke;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -30,8 +29,8 @@ import java.util.TimerTask;
 
 public abstract class Screen extends JPanel{
 	
-	public final int WIDTH      = 1350;
-	public final int HEIGHT     = 650;
+	public final int WIDTH       = 1350;
+	public final int HEIGHT      = 650;
 	private final int DELAY      = 100;
 	private final int INTERVAL   = 25;
 	private final int cardWidth  = 81;
@@ -39,7 +38,8 @@ public abstract class Screen extends JPanel{
 
 	private JToolBar toolbar;
 	private JButton restartButton;
-	private Color secondaryColor = new Color(30, 115, 77);
+	private Color primaryColor    = new Color(33, 138, 90);
+	private Color secondaryColor  = new Color(30, 115, 77);
 
 	private Timer timer;
 	private Sprite sprite;
@@ -54,10 +54,9 @@ public abstract class Screen extends JPanel{
 		this.game = game;
 		sprite  = new Sprite("/app/view/image/card-sprite.gif", cardWidth, cardHeight);
 		piles2D = new ArrayList<>();
-		setPilePositions();
 		initComponents();
 
-		setBackground(new Color(33, 138, 90));
+		setBackground(primaryColor);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -86,7 +85,7 @@ public abstract class Screen extends JPanel{
 		restartButton.setForeground(Color.white);
 		restartButton.setBackground(new Color(3, 157, 252));
 		restartButton.setBorder(null);
-		restartButton.addActionListener(e -> restart(e));
+		restartButton.addActionListener(e -> restart());
 
 		toolbar.add(restartButton);
 		this.add(toolbar, BorderLayout.NORTH);
@@ -101,11 +100,18 @@ public abstract class Screen extends JPanel{
 	public abstract void setPilePositions();
 
 	public void setTheme(Color background, Color toolbar, Color button){
-		secondaryColor = toolbar;
+		this.primaryColor   = background;
+		this.secondaryColor = toolbar;
 		this.setBackground(background);
 		this.toolbar.setBackground(toolbar);
 		this.restartButton.setBackground(button);
 	}
+
+	public Color primaryColor(){ return this.primaryColor; }
+
+	public Color secondaryColor(){ return this.secondaryColor; }
+
+	public String name(){ return game.name; }
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -170,8 +176,8 @@ public abstract class Screen extends JPanel{
 		sourceIndex  = destinationIndex = -1;
 	}
 
-	private void restart(ActionEvent e){
-		game.restart();
+	public void restart(){
+		game.start();
 		piles2D.clear();
 		setPilePositions();
 		resetPlay();

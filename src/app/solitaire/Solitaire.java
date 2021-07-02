@@ -1,10 +1,6 @@
 package app.solitaire;
 
-import app.view.MainWindow;
-import app.view.Screen;
-
 import java.util.List;
-import java.awt.EventQueue;
 
 import app.Card;
 import app.CardGame;
@@ -18,7 +14,7 @@ public class Solitaire extends CardGame{
 	private final int TABLEAU_SIZE = 7;
 
 	public Solitaire(){
-		super();
+		super("Solitaire");
 		turnCardsFromStock = 1;
 	}
 	
@@ -45,16 +41,6 @@ public class Solitaire extends CardGame{
 			tableau.setStackingMethod(stackableOnTableau(tableau));
 			piles.add(tableau);
 		}
-	}
-
-	@Override
-	public void start(){
-		Screen screen = new SolitaireScreen(this);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new MainWindow("Solitaire", screen).setVisible(true);
-			}
-		});
 	}
 
 	@Override
