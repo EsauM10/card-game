@@ -1,6 +1,7 @@
 # Card Game
 Esse projeto utiliza o padrão Strategy para facilitar a implementação de jogos de cartas
 ## Estrutura do projeto
+![uml](https://user-images.githubusercontent.com/33939999/126906912-59669fe4-b1df-4a72-8eb6-941e6a5fdfed.png)
 
 ## Solitaire
 No jogo Solitaire o objetivo é completar as 4 fundações (pilhas vazias) em ordem ascendente com cartas do mesmo naipe.
